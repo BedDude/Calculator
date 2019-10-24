@@ -1,6 +1,6 @@
-﻿namespace Calculator
+﻿namespace Calculator.Lexer
 {
-    public class Token
+    class Token
     {
         public readonly object something;
         public readonly TokenType type;

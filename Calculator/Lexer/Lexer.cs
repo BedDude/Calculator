@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Calculator
+namespace Calculator.Lexer
 {
-    public static class Lexer
+    static class Lexer
     {
         public static List<Token> GetListOfTokens(string inputString)
         {

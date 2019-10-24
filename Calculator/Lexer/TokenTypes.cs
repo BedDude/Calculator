@@ -1,6 +1,6 @@
-﻿namespace Calculator
+﻿namespace Calculator.Lexer
 {
-    public enum TokenType
+    enum TokenType
     {
         NUMBER,
         OPERATION_ADD,
