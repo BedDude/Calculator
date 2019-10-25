@@ -2,8 +2,8 @@
 {
     class Token
     {
-        public readonly object something;
-        public readonly TokenType type;
+        public object something;
+        public TokenType type;
 
         public Token(object something, TokenType type)
         {

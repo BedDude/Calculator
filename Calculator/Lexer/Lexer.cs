@@ -9,42 +9,47 @@ namespace Calculator.Lexer
             List<Token> listOfTokens = new List<Token>();
             int nextNumber = 0;
 
+            bool isNegativeNumber = false;
+            char previousSymbol = char.MinValue;
             foreach(var symbol in inputString)
             {
-                switch(symbol)
+                if(char.IsDigit(symbol))
                 {
-                    case '+':
-                        AddNumberInList(ref nextNumber, ref listOfTokens);
-                        listOfTokens.Add(new Token(symbol, TokenType.OPERATION_ADD));
-                        break;
-                    case '-':
-                        AddNumberInList(ref nextNumber, ref listOfTokens);
-                        listOfTokens.Add(new Token(symbol, TokenType.OPERATION_SUBTRACT));
-                        break;
-                    case '*':
-                        AddNumberInList(ref nextNumber, ref listOfTokens);
-                        listOfTokens.Add(new Token(symbol, TokenType.OPERATION_MULTIPLY));
-                        break;
-                    case '/':
-                        AddNumberInList(ref nextNumber, ref listOfTokens);
-                        listOfTokens.Add(new Token(symbol, TokenType.OPERATION_DIVISION));
-                        break;
-                    case '^':
-                        AddNumberInList(ref nextNumber, ref listOfTokens);
-                        listOfTokens.Add(new Token(symbol, TokenType.OPERATION_POW));
-                        break;
-                    default:
-                        nextNumber = (nextNumber * 10) + (symbol - 48);
-                        break;
+                    nextNumber = (nextNumber * 10) + (symbol - 48);
                 }
+                else if(symbol == '-')
+                {
+                    if(char.IsDigit(previousSymbol))
+                    {
+                        AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
+                        listOfTokens.Add(new Token(symbol, TokenType.OPERATOR));
+                    }
+                    else
+                    {
+                        isNegativeNumber = true;
+                    }
+                }
+                else
+                {
+                    AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
+                    listOfTokens.Add(new Token(symbol, TokenType.OPERATOR));
+                    isNegativeNumber = false;
+                }
+
+                previousSymbol = symbol;
             }
-            AddNumberInList(ref nextNumber, ref listOfTokens);
+            AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
 
             return listOfTokens;
         }
 
-        private static void AddNumberInList(ref int number, ref List<Token> list)
+        private static void AddNumberInList(ref int number, ref List<Token> list, bool isNegativeNumber)
         {
+            if(isNegativeNumber)
+            {
+                number *= -1;
+            }
+
             list.Add(new Token(number, TokenType.NUMBER));
             number = 0;
         }
