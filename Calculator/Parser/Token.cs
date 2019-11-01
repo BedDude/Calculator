@@ -1,4 +1,4 @@
-﻿namespace Calculator.Parser
+﻿namespace Calculator.Parsing
 {
     class ParserToken
     {

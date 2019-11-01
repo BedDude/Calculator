@@ -1,18 +1,21 @@
-﻿using Calculator.Lexer;
+﻿using Calculator.Lexing;
 
-namespace Calculator.Parser
+namespace Calculator.Parsing
 {
     class TreeElement
     {
-        public TreeElement Left { get; set; }
-        public TreeElement Right { get; set; }
+        private readonly TreeElement[] _treeElements;
+        private int _position;
+        
         public LexerToken Token { get; }
+        public TreeElement Left => _treeElements[2 * _position + 1];
+        public TreeElement Right => _treeElements[2 * _position + 2];
 
-        public TreeElement(LexerToken token)
+        public TreeElement(LexerToken token, int position, TreeElement[] elements)
         {
             Token = token;
-            Left = null;
-            Right = null;
+            _position = position;
+            _treeElements = elements;
         }
     }
 }

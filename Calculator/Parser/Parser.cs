@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
-using Calculator.Lexer;
+using Calculator.Lexing;
 
-namespace Calculator.Parser
+namespace Calculator.Parsing
 {
     static class Parser
     {
         public static Tree GetTree(List<LexerToken> listOfLexerTokens)
         {
+            Tree tree = new Tree(listOfLexerTokens.Count);
+
             ParserToken[] parserTokens = GetListOf(listOfLexerTokens);
 
-            return new Tree();
+            
+            return tree;
         }
 
         private static ParserToken[] GetListOf(List<LexerToken> listOfLexerTokens)
