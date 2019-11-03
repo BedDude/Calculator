@@ -5,17 +5,21 @@ namespace Calculator.Parsing
     class TreeElement
     {
         private readonly TreeElement[] _treeElements;
-        private int _position;
-        
-        public LexerToken Token { get; }
-        public TreeElement Left => _treeElements[2 * _position + 1];
-        public TreeElement Right => _treeElements[2 * _position + 2];
+        private readonly int _position;
+        private readonly int _left;
+        private readonly int _right;
 
-        public TreeElement(LexerToken token, int position, TreeElement[] elements)
+        public LexerToken Token { get; }
+        public TreeElement Left => _treeElements[_left];
+        public TreeElement Right => _treeElements[_right];
+
+        public TreeElement(LexerToken token, TreeElement[] elements, (int, int, int) coordinate)
         {
             Token = token;
-            _position = position;
             _treeElements = elements;
+            _position = coordinate.Item1;
+            _left = coordinate.Item2;
+            _right = coordinate.Item3;
         }
     }
 }
