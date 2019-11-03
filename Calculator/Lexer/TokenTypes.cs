@@ -1,4 +1,4 @@
-﻿namespace Calculator.Lexer
+﻿namespace Calculator.Lexing
 {
     enum TokenType
     {
