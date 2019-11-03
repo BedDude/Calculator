@@ -9,16 +9,16 @@ namespace Calculator.Parsing
         {
             Tree tree = new Tree(listOfLexerTokens.Count);
 
-            ParserToken[] parserTokens = GetListOf(listOfLexerTokens);
+            byte[] parserTokens = GetListOf(listOfLexerTokens);
 
-            
+
             return tree;
         }
 
-        private static ParserToken[] GetListOf(List<LexerToken> listOfLexerTokens)
+        private static byte[] GetListOf(List<LexerToken> listOfLexerTokens)
         {
             int size = listOfLexerTokens.Count;
-            ParserToken[] parserTokens = new ParserToken[size];
+            byte[] listOf = new byte[size];
 
             object something;
             for(int i = 0;i < size;i++)
@@ -26,27 +26,27 @@ namespace Calculator.Parsing
                 something = listOfLexerTokens[i].something;
                 if(listOfLexerTokens[i].type == TokenType.NUMBER)
                 {
-                    parserTokens[i] = new ParserToken(something, byte.MaxValue);
+                    listOf[i] = byte.MaxValue;
                 }
                 else
                 {
                     switch(listOfLexerTokens[i].something)
                     {
                         case '^':
-                            parserTokens[i] = new ParserToken(something, 0);
+                            listOf[i] = 0;
                             break;
                         case '*':
                         case '/':
-                            parserTokens[i] = new ParserToken(something, 1);
+                            listOf[i] = 1;
                             break;
                         default:
-                            parserTokens[i] = new ParserToken(something, 2);
+                            listOf[i] = 2;
                             break;
                     }
                 }
             }
 
-            return parserTokens;
+            return listOf;
         }
     }
 }
