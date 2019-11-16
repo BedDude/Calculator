@@ -5,20 +5,40 @@ namespace Calculator.Parsing
 {
     static class Parser
     {
-        public static Tree GetTree(List<LexerToken> listOfLexerTokens)
+        public static List<LexerToken> GetSortedList(List<LexerToken> listOfLexerTokens)
         {
-            Tree tree = new Tree(listOfLexerTokens.Count);
+            List<LexerToken> testOutput = new List<LexerToken>();
 
-            byte[] parserTokens = GetListOf(listOfLexerTokens);
+            byte[] listOfPriorities = GetListOfPriorities(listOfLexerTokens);
+            Stack<(LexerToken, byte)> someStack = new Stack<(LexerToken, byte)>();
 
+            for(int i = 0;i < listOfLexerTokens.Count;i++)
+            {
+                if(listOfLexerTokens[i].type == TokenType.NUMBER)
+                {
+                    testOutput.Add(listOfLexerTokens[i]);
+                }
+                else
+                {
+                    while(someStack.Count > 0 && someStack.Peek().Item2 <= listOfPriorities[i])
+                    {
+                        testOutput.Add(someStack.Pop().Item1);
+                    }
+                    someStack.Push((listOfLexerTokens[i], listOfPriorities[i]));
+                }
+            }
+            while(someStack.Count > 0)
+            {
+                testOutput.Add(someStack.Pop().Item1);
+            }
 
-            return tree;
+            return testOutput;
         }
 
-        private static byte[] GetListOf(List<LexerToken> listOfLexerTokens)
+        private static byte[] GetListOfPriorities(List<LexerToken> listOfLexerTokens)
         {
             int size = listOfLexerTokens.Count;
-            byte[] listOf = new byte[size];
+            byte[] listOfPriorities = new byte[size];
 
             object something;
             for(int i = 0;i < size;i++)
@@ -26,27 +46,28 @@ namespace Calculator.Parsing
                 something = listOfLexerTokens[i].something;
                 if(listOfLexerTokens[i].type == TokenType.NUMBER)
                 {
-                    listOf[i] = byte.MaxValue;
+                    listOfPriorities[i] = byte.MaxValue;
                 }
                 else
                 {
                     switch(listOfLexerTokens[i].something)
                     {
                         case '^':
-                            listOf[i] = 0;
+                        case '%':
+                            listOfPriorities[i] = 0;
                             break;
                         case '*':
                         case '/':
-                            listOf[i] = 1;
+                            listOfPriorities[i] = 1;
                             break;
                         default:
-                            listOf[i] = 2;
+                            listOfPriorities[i] = 2;
                             break;
                     }
                 }
             }
 
-            return listOf;
+            return listOfPriorities;
         }
     }
 }
