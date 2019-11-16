@@ -1,11 +1,11 @@
 ﻿namespace Calculator.Lexing
 {
-    class LexerToken
+    class Token
     {
         public readonly object something;
         public readonly TokenType type;
 
-        public LexerToken(object something, TokenType type)
+        public Token(object something, TokenType type)
         {
             this.something = something;
             this.type = type;

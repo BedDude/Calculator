@@ -5,12 +5,12 @@ namespace Calculator.Parsing
 {
     static class Parser
     {
-        public static List<LexerToken> GetSortedList(List<LexerToken> listOfLexerTokens)
+        public static List<Token> GetSortedList(List<Token> listOfLexerTokens)
         {
-            List<LexerToken> testOutput = new List<LexerToken>();
+            List<Token> testOutput = new List<Token>();
 
             byte[] listOfPriorities = GetListOfPriorities(listOfLexerTokens);
-            Stack<(LexerToken, byte)> someStack = new Stack<(LexerToken, byte)>();
+            Stack<(Token, byte)> someStack = new Stack<(Token, byte)>();
 
             for(int i = 0;i < listOfLexerTokens.Count;i++)
             {
@@ -35,7 +35,7 @@ namespace Calculator.Parsing
             return testOutput;
         }
 
-        private static byte[] GetListOfPriorities(List<LexerToken> listOfLexerTokens)
+        private static byte[] GetListOfPriorities(List<Token> listOfLexerTokens)
         {
             int size = listOfLexerTokens.Count;
             byte[] listOfPriorities = new byte[size];

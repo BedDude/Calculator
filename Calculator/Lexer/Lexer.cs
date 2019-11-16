@@ -4,9 +4,9 @@ namespace Calculator.Lexing
 {
     static class Lexer
     {
-        public static List<LexerToken> GetListOfTokens(string inputString)
+        public static List<Token> GetListOfTokens(string inputString)
         {
-            List<LexerToken> listOfTokens = new List<LexerToken>();
+            List<Token> listOfTokens = new List<Token>();
             int nextNumber = 0;
 
             bool isNegativeNumber = false;
@@ -22,7 +22,7 @@ namespace Calculator.Lexing
                     if(char.IsDigit(previousSymbol))
                     {
                         AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
-                        listOfTokens.Add(new LexerToken(symbol, TokenType.OPERATOR));
+                        listOfTokens.Add(new Token(symbol, TokenType.OPERATOR));
                     }
                     else
                     {
@@ -32,7 +32,7 @@ namespace Calculator.Lexing
                 else
                 {
                     AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
-                    listOfTokens.Add(new LexerToken(symbol, TokenType.OPERATOR));
+                    listOfTokens.Add(new Token(symbol, TokenType.OPERATOR));
                     isNegativeNumber = false;
                 }
 
@@ -43,14 +43,14 @@ namespace Calculator.Lexing
             return listOfTokens;
         }
 
-        private static void AddNumberInList(ref int number, ref List<LexerToken> list, bool isNegativeNumber)
+        private static void AddNumberInList(ref int number, ref List<Token> list, bool isNegativeNumber)
         {
             if(isNegativeNumber)
             {
                 number *= -1;
             }
 
-            list.Add(new LexerToken(number, TokenType.NUMBER));
+            list.Add(new Token(number, TokenType.NUMBER));
             number = 0;
         }
     }
