@@ -3,6 +3,7 @@
     enum TokenType
     {
         NUMBER,
-        OPERATOR
+        OPERATOR_BINARY,
+        OPERATOR_POSTFIX
     }
 }

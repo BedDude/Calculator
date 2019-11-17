@@ -17,28 +17,41 @@ namespace Calculator.Lexing
                 {
                     nextNumber = (nextNumber * 10) + (symbol - 48);
                 }
-                else if(symbol == '-')
+                else if(listOfTokens.Count > 0 && listOfTokens[listOfTokens.Count - 1].type == TokenType.OPERATOR_POSTFIX)
                 {
-                    if(char.IsDigit(previousSymbol))
-                    {
-                        AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
-                        listOfTokens.Add(new Token(symbol, TokenType.OPERATOR));
-                    }
-                    else
-                    {
-                        isNegativeNumber = true;
-                    }
+                    listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_BINARY));
                 }
                 else
                 {
                     AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
-                    listOfTokens.Add(new Token(symbol, TokenType.OPERATOR));
-                    isNegativeNumber = false;
+                    if(symbol == '-')
+                    {
+                        if(char.IsDigit(previousSymbol))
+                        {
+                            listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_BINARY));
+                        }
+                        else
+                        {
+                            isNegativeNumber = true;
+                        }
+                    }
+                    else if(symbol == '!')
+                    {
+                        listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_POSTFIX));
+                    }
+                    else
+                    {
+                        listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_BINARY));
+                        isNegativeNumber = false;
+                    }
                 }
 
                 previousSymbol = symbol;
             }
-            AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
+            if(listOfTokens[listOfTokens.Count - 1].type == TokenType.OPERATOR_BINARY)
+            {
+                AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
+            }
 
             return listOfTokens;
         }

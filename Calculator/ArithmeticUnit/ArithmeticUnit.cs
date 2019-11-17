@@ -19,38 +19,53 @@ namespace Calculator.Calculation
                 }
                 else
                 {
-                    firstOperand = stackOfNumbers.Pop();
+                    secondOperand = stackOfNumbers.Pop();
                     switch(token.something)
                     {
+                        case '!':
+                            stackOfNumbers.Push(GetFactorial((int)secondOperand));
+                            break;
                         case '+':
-                            secondOperand = stackOfNumbers.Pop();
+                            firstOperand = stackOfNumbers.Pop();
                             stackOfNumbers.Push(firstOperand + secondOperand);
                             break;
                         case '-':
-                            secondOperand = stackOfNumbers.Pop();
-                            stackOfNumbers.Push(secondOperand - firstOperand);
+                            firstOperand = stackOfNumbers.Pop();
+                            stackOfNumbers.Push(firstOperand - secondOperand);
                             break;
                         case '*':
-                            secondOperand = stackOfNumbers.Pop();
+                            firstOperand = stackOfNumbers.Pop();
                             stackOfNumbers.Push(firstOperand * secondOperand);
                             break;
                         case '/':
-                            secondOperand = stackOfNumbers.Pop();
-                            stackOfNumbers.Push(secondOperand / firstOperand);
+                            firstOperand = stackOfNumbers.Pop();
+                            stackOfNumbers.Push(firstOperand / secondOperand);
                             break;
                         case '^':
-                            secondOperand = stackOfNumbers.Pop();
-                            stackOfNumbers.Push(Math.Pow(secondOperand, firstOperand));
+                            firstOperand = stackOfNumbers.Pop();
+                            stackOfNumbers.Push(Math.Pow(firstOperand, secondOperand));
                             break;
                         case '%':
-                            secondOperand = stackOfNumbers.Pop();
-                            stackOfNumbers.Push(secondOperand / 100 * firstOperand);
+                            firstOperand = stackOfNumbers.Pop();
+                            stackOfNumbers.Push(firstOperand / 100 * secondOperand);
                             break;
                     }
                 }
             }
 
             return stackOfNumbers.Pop();
+        }
+
+        private static int GetFactorial(int number)
+        {
+            if(number == 1 || number == 0)
+            {
+                return 1;
+            }
+            else
+            {
+                return number * GetFactorial(number - 1);
+            }
         }
     }
 }

@@ -14,17 +14,17 @@ namespace Calculator.Parsing
 
             for(int i = 0;i < listOfLexerTokens.Count;i++)
             {
-                if(listOfLexerTokens[i].type == TokenType.NUMBER)
-                {
-                    testOutput.Add(listOfLexerTokens[i]);
-                }
-                else
+                if(listOfLexerTokens[i].type == TokenType.OPERATOR_BINARY)
                 {
                     while(someStack.Count > 0 && someStack.Peek().Item2 <= listOfPriorities[i])
                     {
                         testOutput.Add(someStack.Pop().Item1);
                     }
                     someStack.Push((listOfLexerTokens[i], listOfPriorities[i]));
+                }
+                else
+                {
+                    testOutput.Add(listOfLexerTokens[i]);
                 }
             }
             while(someStack.Count > 0)
@@ -44,7 +44,7 @@ namespace Calculator.Parsing
             for(int i = 0;i < size;i++)
             {
                 something = listOfLexerTokens[i].something;
-                if(listOfLexerTokens[i].type == TokenType.OPERATOR)
+                if(listOfLexerTokens[i].type == TokenType.OPERATOR_BINARY)
                 {
                     switch(listOfLexerTokens[i].something)
                     {
