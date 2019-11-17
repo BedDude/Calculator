@@ -44,11 +44,7 @@ namespace Calculator.Parsing
             for(int i = 0;i < size;i++)
             {
                 something = listOfLexerTokens[i].something;
-                if(listOfLexerTokens[i].type == TokenType.NUMBER)
-                {
-                    listOfPriorities[i] = byte.MaxValue;
-                }
-                else
+                if(listOfLexerTokens[i].type == TokenType.OPERATOR)
                 {
                     switch(listOfLexerTokens[i].something)
                     {
@@ -64,6 +60,10 @@ namespace Calculator.Parsing
                             listOfPriorities[i] = 2;
                             break;
                     }
+                }
+                else
+                {
+                    listOfPriorities[i] = byte.MaxValue;
                 }
             }
 
