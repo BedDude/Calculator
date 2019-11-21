@@ -11,44 +11,59 @@ namespace Calculator.Lexing
 
             bool isNegativeNumber = false;
             char previousSymbol = char.MinValue;
+            Token lastElementInList = new Token(0, TokenType.NUMBER);
+            bool YWSMTh = true;
             foreach(var symbol in inputString)
             {
                 if(char.IsDigit(symbol))
                 {
                     nextNumber = (nextNumber * 10) + (symbol - 48);
                 }
-                else if(listOfTokens.Count > 0 && listOfTokens[listOfTokens.Count - 1].type == TokenType.OPERATOR_POSTFIX)
-                {
-                    listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_BINARY));
-                }
                 else
                 {
-                    AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
-                    if(symbol == '-')
+                    if(listOfTokens.Count > 0)
                     {
-                        if(char.IsDigit(previousSymbol))
-                        {
+                        lastElementInList = listOfTokens[listOfTokens.Count - 1];
+                        YWSMTh = lastElementInList.type != TokenType.OPERATOR_POSTFIX;
+                    }
+
+                    switch(symbol)
+                    {
+                        case '!':
+                            if(YWSMTh)
+                            {
+                                AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
+                            }
+                            listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_POSTFIX));
+                            break;
+                        case '-':
+                            if(!char.IsDigit(previousSymbol))
+                            {
+                                isNegativeNumber = true;
+                            }
+                            else
+                            {
+                                if(YWSMTh)
+                                {
+                                    AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
+                                }
+                                listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_BINARY));
+                            }
+                            break;
+                        default:
+                            if(YWSMTh)
+                            {
+                                AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
+                            }
                             listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_BINARY));
-                        }
-                        else
-                        {
-                            isNegativeNumber = true;
-                        }
-                    }
-                    else if(symbol == '!')
-                    {
-                        listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_POSTFIX));
-                    }
-                    else
-                    {
-                        listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_BINARY));
-                        isNegativeNumber = false;
+                            isNegativeNumber = false;
+                            break;
                     }
                 }
 
                 previousSymbol = symbol;
             }
-            if(listOfTokens[listOfTokens.Count - 1].type == TokenType.OPERATOR_BINARY)
+            if(listOfTokens.Count == 0 || listOfTokens[listOfTokens.Count - 1].type == TokenType.OPERATOR_BINARY)
             {
                 AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
             }
