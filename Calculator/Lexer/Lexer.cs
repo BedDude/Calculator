@@ -33,7 +33,7 @@ namespace Calculator.Lexing
                             listOfTokens.Add(new Token(symbol, TokenType.BRACKET_OPEN));
                             break;
                         case ')':
-                            if(lastElementInList.type != TokenType.OPERATOR_POSTFIX)
+                            if(YWSMTh)
                             {
                                 AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
                             }
