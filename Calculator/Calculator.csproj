@@ -43,7 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArithmeticUnit\Calculator.cs" />
+    <Compile Include="ArithmeticUnit\ArithmeticUnit.cs" />
     <Compile Include="Lexer\Lexer.cs" />
     <Compile Include="Lexer\Token.cs" />
     <Compile Include="Parser\Parser.cs" />

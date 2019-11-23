@@ -24,11 +24,21 @@ namespace Calculator.Lexing
                     if(listOfTokens.Count > 0)
                     {
                         lastElementInList = listOfTokens[listOfTokens.Count - 1];
-                        YWSMTh = lastElementInList.type != TokenType.OPERATOR_POSTFIX;
+                        YWSMTh = lastElementInList.type != TokenType.OPERATOR_POSTFIX && lastElementInList.type != TokenType.BRACKET_CLOSE;
                     }
 
                     switch(symbol)
                     {
+                        case '(':
+                            listOfTokens.Add(new Token(symbol, TokenType.BRACKET_OPEN));
+                            break;
+                        case ')':
+                            if(lastElementInList.type != TokenType.OPERATOR_POSTFIX)
+                            {
+                                AddNumberInList(ref nextNumber, ref listOfTokens, isNegativeNumber);
+                            }
+                            listOfTokens.Add(new Token(symbol, TokenType.BRACKET_CLOSE));
+                            break;
                         case '!':
                             if(YWSMTh)
                             {
@@ -37,7 +47,7 @@ namespace Calculator.Lexing
                             listOfTokens.Add(new Token(symbol, TokenType.OPERATOR_POSTFIX));
                             break;
                         case '-':
-                            if(!char.IsDigit(previousSymbol))
+                            if(!char.IsDigit(previousSymbol) && previousSymbol != '!' && previousSymbol != ')')
                             {
                                 isNegativeNumber = true;
                             }

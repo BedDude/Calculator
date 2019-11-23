@@ -5,34 +5,46 @@ namespace Calculator.Parsing
 {
     static class Parser
     {
-        public static List<Token> GetSortedList(List<Token> listOfLexerTokens)
+        public static List<Token> GetListInPostfixNotation(List<Token> listOfLexerTokens)
         {
-            List<Token> testOutput = new List<Token>();
+            List<Token> listInPOstfixNotation = new List<Token>();
 
             byte[] listOfPriorities = GetListOfPriorities(listOfLexerTokens);
-            Stack<(Token, byte)> someStack = new Stack<(Token, byte)>();
+            Stack<(Token, byte)> stackOfOperators = new Stack<(Token, byte)>();
 
             for(int i = 0;i < listOfLexerTokens.Count;i++)
             {
-                if(listOfLexerTokens[i].type == TokenType.OPERATOR_BINARY)
+                switch(listOfLexerTokens[i].type)
                 {
-                    while(someStack.Count > 0 && someStack.Peek().Item2 <= listOfPriorities[i])
-                    {
-                        testOutput.Add(someStack.Pop().Item1);
-                    }
-                    someStack.Push((listOfLexerTokens[i], listOfPriorities[i]));
-                }
-                else
-                {
-                    testOutput.Add(listOfLexerTokens[i]);
+                    case TokenType.OPERATOR_BINARY:
+                        while(stackOfOperators.Count > 0 && stackOfOperators.Peek().Item2 <= listOfPriorities[i])
+                        {
+                            listInPOstfixNotation.Add(stackOfOperators.Pop().Item1);
+                        }
+                        stackOfOperators.Push((listOfLexerTokens[i], listOfPriorities[i]));
+                        break;
+                    case TokenType.OPERATOR_POSTFIX:
+                    case TokenType.NUMBER:
+                        listInPOstfixNotation.Add(listOfLexerTokens[i]);
+                        break;
+                    case TokenType.BRACKET_OPEN:
+                        stackOfOperators.Push((listOfLexerTokens[i], listOfPriorities[i]));
+                        break;
+                    case TokenType.BRACKET_CLOSE:
+                        while(stackOfOperators.Peek().Item1.type != TokenType.BRACKET_OPEN)
+                        {
+                            listInPOstfixNotation.Add(stackOfOperators.Pop().Item1);
+                        }
+                        stackOfOperators.Pop();
+                        break;
                 }
             }
-            while(someStack.Count > 0)
+            while(stackOfOperators.Count > 0)
             {
-                testOutput.Add(someStack.Pop().Item1);
+                listInPOstfixNotation.Add(stackOfOperators.Pop().Item1);
             }
 
-            return testOutput;
+            return listInPOstfixNotation;
         }
 
         private static byte[] GetListOfPriorities(List<Token> listOfLexerTokens)

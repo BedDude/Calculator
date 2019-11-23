@@ -4,6 +4,8 @@
     {
         NUMBER,
         OPERATOR_BINARY,
-        OPERATOR_POSTFIX
+        OPERATOR_POSTFIX,
+        BRACKET_OPEN,
+        BRACKET_CLOSE
     }
 }

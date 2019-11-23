@@ -26,7 +26,7 @@ namespace Calculator
                 if(input != "")
                 {
                     List<Token> listOfTokens = Lexer.GetListOfTokens(input);
-                    List<Token> postfixNotationListOfTokens = Parser.GetSortedList(listOfTokens);
+                    List<Token> postfixNotationListOfTokens = Parser.GetListInPostfixNotation(listOfTokens);
                     answer = ArithmeticUnit.GetAnswer(postfixNotationListOfTokens);
 
                     Console.WriteLine($"  {answer}");
