@@ -1,5 +1,9 @@
 ﻿namespace Calculator.Lexing
 {
+    /// <summary>
+    /// Token class
+    /// Contains a symbol and symbols type
+    /// </summary>
     class Token
     {
         public readonly object something;

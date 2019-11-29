@@ -1,5 +1,8 @@
 ﻿namespace Calculator.Lexing
 {
+    /// <summary>
+    /// Enumeration of sumbols types
+    /// </summary>
     enum TokenType
     {
         NUMBER,

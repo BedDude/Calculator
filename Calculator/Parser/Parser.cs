@@ -3,8 +3,17 @@ using Calculator.Lexing;
 
 namespace Calculator.Parsing
 {
+    /// <summary>
+    /// Parser class
+    /// Used to translate a list of tokens into postfix notation
+    /// </summary>
     static class Parser
     {
+        /// <summary>
+        /// Function of translating the list of tokens into postfix notation
+        /// </summary>
+        /// <param name="listOfLexerTokens">List of tokens</param>
+        /// <returns>List of tokens in postfix notation</returns>
         public static List<Token> GetListInPostfixNotation(List<Token> listOfLexerTokens)
         {
             List<Token> listInPOstfixNotation = new List<Token>();
@@ -47,6 +56,11 @@ namespace Calculator.Parsing
             return listInPOstfixNotation;
         }
 
+        /// <summary>
+        /// Function of creation list of operators priorities
+        /// </summary>
+        /// <param name="listOfLexerTokens">List of tokens</param>
+        /// <returns>List of operators priorities</returns>
         private static byte[] GetListOfPriorities(List<Token> listOfLexerTokens)
         {
             int size = listOfLexerTokens.Count;

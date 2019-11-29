@@ -4,12 +4,22 @@ using Calculator.Lexing;
 
 namespace Calculator.Calculation
 {
+    /// <summary>
+    /// Class of arithmetic unit
+    /// Used for calculation
+    /// </summary>
     static class ArithmeticUnit
     {
+        /// <summary>
+        /// Calculation function
+        /// Use stack calculation
+        /// </summary>
+        /// <param name="listOfTokens">List of tokens in postfix notation</param>
+        /// <returns>Result of calculation</returns>
         public static double GetAnswer(List<Token> listOfTokens)
         {
             Stack<double> stackOfNumbers = new Stack<double>();
-
+            
             double firstOperand, secondOperand;
             foreach(var token in listOfTokens)
             {
@@ -56,6 +66,11 @@ namespace Calculator.Calculation
             return stackOfNumbers.Pop();
         }
 
+        /// <summary>
+        /// Recursive function of calculation the factorial of integer
+        /// </summary>
+        /// <param name="number">Just integer</param>
+        /// <returns>Factorial of number</returns>
         private static int GetFactorial(int number)
         {
             if(number == 1 || number == 0)

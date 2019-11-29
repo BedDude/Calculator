@@ -6,8 +6,15 @@ using Calculator.Calculation;
 
 namespace Calculator
 {
+    /// <summary>
+    /// Main class in program
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Main function in program
+        /// Used for work coordination and creation UI
+        /// </summary>
         static void Main()
         {
             string input;
